@@ -1,149 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
     <meta charset="UTF-8">
+    <script src="{% static 'jquery.js' %}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attractive Navbar</title>
+    <title>Dropdowns in Body</title>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-
-        /* Navbar Styling */
-        nav {
-            background-color: #2c3e50;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        nav h1 {
-            color: #ecf0f1;
-            font-size: 1.5rem;
-        }
-
-        nav ul {
-            list-style-type: none;
-            display: flex;
-        }
-
-        nav ul li {
-            margin-left: 20px;
-        }
-
-        nav ul li a {
-            color: #ecf0f1;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            transition: background-color 0.3s ease;
-        }
-
-        nav ul li a:hover {
-            background-color: #34495e;
-            border-radius: 4px;
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 80vh;
-            background-image: url('https://via.placeholder.com/1500x800');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-            text-align: center;
-        }
-
-        .hero h2 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            line-height: 1.5;
-        }
-
-        /* Main Content */
-        .content {
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .content h3 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .content p {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #555;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            text-align: center;
-            padding: 1rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-        footer p {
-            margin: 0;
-        }
+    
     </style>
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav>
-        <h1>BrandName</h1>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-    </nav>
 
-    <!-- Hero Section -->
-    <!-- <div class="hero">
-        <div>
-            <h2>Welcome to Our Website</h2>
-            <p>Creating stunning websites with simplicity and elegance.</p>
+    <nav class="navbar bg-primary" data-bs-theme="dark">
+        <div class="container-fluid">
+          <a class="navbar-brand h1 mb-0 p-10" href="#">Printer</a>
+          <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button> -->
+          <!-- <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Pricing</a>
+              </li>
+            </ul>
+            <span class="navbar-text">
+              Navbar text with an inline element
+            </span>
+          </div> -->
         </div>
-    </div> -->
+      </nav>
+    
+ 
 
-    <!-- Main Content -->
-    <!-- <section class="content">
-        <h3>Our Mission</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-    </section> -->
+        <div class="row mt-3">
+            <div class="col-2"></div>
+            <div class="col-2">
+                <select title="state" name="states" id="states" class="form-select form-select mb-3">
+                    <option value="0">State</option>
+                    {% for d in data.states %}
+                    <option value="{{d}}">{{d}}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-    <!-- Footer -->
-    <!-- <footer>
-        <p>&copy; 2024 BrandName. All rights reserved.</p>
-    </footer> -->
+            <div class="col-2">
+                <select title="district" name="districts" id="districts" class="form-select form-select mb-3">
+                    <option value="0">District</option>
+                </select>
+            </div>
+
+            <div class="col-2">
+                <select title="substatus" name="substatus" id="substatus" class="form-select form-select mb-3">
+                    <option value="0">Subscription Status</option>
+                    <option value="live">Live</option>
+                    <option value="expired">Expired</option>
+                </select>
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-success" onclick="update_customer_data();">Submit</button>
+            </div>
+            <div class="col-2"></div>
+
+        </div>
+
+        <iframe src="/cusdata" frameborder="10" style="width: 100%;" id="iframe"></iframe>
+
+    <script>
+        // console.log('{{ data }}');
+        data = JSON.parse('{{ data }}'.replaceAll('&#x27;', '"'))
+        // console.log(data)
+
+        dist_sel = document.getElementById('districts')
+        state_sel = document.getElementById('states')
+
+        function removeAllChildNodes(parent) {
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild);
+            }
+        }
+
+        function update_district_selection(){
+            removeAllChildNodes(dist_sel)
+            selected_state = state_sel.value
+            // console.log(selected_state)
+            state_dist = data['statedict'][selected_state] || ''
+
+            var opt = document.createElement('option');
+                opt.value = "0";
+                opt.innerHTML = "District   ";
+                dist_sel.appendChild(opt);
+
+            for(i=0;i<state_dist.length;i++){
+                // console.log(i, state_dist[i])
+                var opt = document.createElement('option');
+                opt.value = state_dist[i];
+                opt.innerHTML = state_dist[i];
+                dist_sel.appendChild(opt);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // console.log("DOM fully loaded and parsed!");
+            update_district_selection()
+        });
+
+        state_sel.addEventListener('change', function(){
+            // console.log('state changed')
+            update_district_selection()
+        })
+
+        function update_customer_data(){
+            sub_sel = document.getElementById('substatus')
+            console.log(state_sel.value)
+            console.log(dist_sel.value)
+            console.log(sub_sel.value)
+            state_selected = state_sel.value
+            district_selected = dist_sel.value
+            subscription_selected = sub_sel.value
+            if(state_selected != 0 && district_selected != 0 && subscription_selected != 0){
+                console.log('success')
+                var iframe = document.getElementById('iframe');
+                var url = iframe.src;
+                url = url.split('?')[0]
+                var payload = {
+                    'state': state_selected,
+                    'district': district_selected,
+                    'substatus': subscription_selected
+                };
+                console.log(payload)
+                url += '?' + Object.keys(payload).map(function(key) {
+                return encodeURIComponent(key) + '=' + encodeURIComponent(payload[key]);
+                }).join('&');
+                console.log(url)
+                iframe.src = url;
+                // Refresh the iframe with the new URL
+                iframe.src = url;
+            }
+        }
+
+    </script>
 
 </body>
 </html>

@@ -49,6 +49,12 @@ class Customer(models.Model):
 
 @receiver(pre_save, sender=Customer)
 def add_sku(sender, instance, **kwargs):
+    instance.name = instance.name.upper()
+    instance.father_name = instance.father_name.upper()
+    instance.email = instance.email.upper()
+    instance.state = instance.state.upper()
+    instance.district = instance.district.upper()
+    instance.taluk = instance.taluk.upper()
     instance.plan_expiration_date = instance.subscription_date + timedelta(weeks=52*instance.plan.duration)
 
 
