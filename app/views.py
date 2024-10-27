@@ -69,7 +69,7 @@ def get_customer_data(request):
         'name',
         'flat_no',
         'flat_name',
-        'door_numbeer',
+        'door_number',
         'street_name',
         'area',
         'taluk',
