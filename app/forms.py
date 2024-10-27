@@ -11,7 +11,7 @@ class CustomerForm(forms.ModelForm):
             'flat_no', 'flat_name', 'door_number', 
             'street_name', 'area', 'taluk', 
             'district', 'state', 'pincode', 
-            'landmark', 'subscription_date', 'plan'
+            'landmark', 'plan'
         ]
 
     def __init__(self, *args, **kwargs):

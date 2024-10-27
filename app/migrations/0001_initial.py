@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(max_length=254)),
                 ('flat_no', models.CharField(max_length=10)),
                 ('flat_name', models.CharField(max_length=100)),
-                ('door_numbeer', models.CharField(max_length=10)),
+                ('door_number', models.CharField(max_length=10)),
                 ('street_name', models.CharField(max_length=100)),
                 ('area', models.CharField(max_length=100)),
                 ('taluk', models.CharField(max_length=100)),

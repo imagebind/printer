@@ -89,6 +89,9 @@
             }
         }
     </style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
     <h1>Customer Form</h1>
@@ -107,5 +110,32 @@
             <button type="submit">Submit</button>
         </form>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            // Function to load districts based on selected state
+            $('#id_state').change(function() {
+                var stateId = $(this).val();
+                if (stateId) {
+                    $.ajax({
+                        url: '/get-districts/' + stateId + '/',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            var districtSelect = $('#id_district');
+                            districtSelect.empty();
+                            districtSelect.append('<option value="">Select District</option>');
+                            $.each(data, function(index, district) {
+                                districtSelect.append('<option value="' + district.id + '">' + district.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#id_district').empty();
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
