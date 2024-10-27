@@ -173,6 +173,8 @@ def create_customer(request):
         form = CustomerForm()
     return render(request, 'customer_form.html', {'form': form})
 
+def success(request):
+    return render(request, 'success.html')
 
 from django.http import JsonResponse
 from .models import District

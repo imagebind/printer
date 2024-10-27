@@ -54,7 +54,7 @@ class Customer(models.Model):
     landmark = models.CharField(max_length=100, null=True)
     subscription_date = models.DateField(null=True)
     plan = models.ForeignKey(Plan, on_delete=models.DO_NOTHING)
-    plan_expiration_date = models.DateField()
+    plan_expiration_date = models.DateField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
@@ -68,9 +68,7 @@ def add_sku(sender, instance, **kwargs):
     instance.name = instance.name.upper()
     instance.father_name = instance.father_name.upper()
     instance.email = instance.email.upper()
-    instance.state = instance.state.upper()
-    instance.district = instance.district.upper()
     instance.taluk = instance.taluk.upper()
-    instance.plan_expiration_date = instance.subscription_date + timedelta(weeks=52*instance.plan.duration)
+    # instance.plan_expiration_date = instance.subscription_date + timedelta(weeks=52*instance.plan.duration)
 
 
