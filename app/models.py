@@ -12,6 +12,21 @@ PLAN_CHOICES = {
     'Plan C': 'Plan C',
 }
 
+class State(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class District(models.Model):
+    name = models.CharField(max_length=100)
+    state = models.ForeignKey(State, on_delete=models.CASCADE, related_name='districts')
+
+    def __str__(self):
+        return self.name    
+
+
 class Plan(models.Model):
     name = models.CharField(primary_key=True, max_length=100)
     amount = models.IntegerField(null=False)
@@ -29,12 +44,12 @@ class Customer(models.Model):
     email = models.EmailField(unique=True)
     flat_no = models.CharField(max_length=10)
     flat_name = models.CharField(max_length=100)
-    door_numbeer = models.CharField(max_length=10)
+    door_number = models.CharField(max_length=10)
     street_name = models.CharField(max_length=100)
     area = models.CharField(max_length=100)
     taluk = models.CharField(max_length=100)
-    district = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
+    district =  models.ForeignKey(District, on_delete=models.CASCADE) 
+    state = models.ForeignKey(State, on_delete=models.CASCADE) 
     pincode = models.IntegerField(max_length=6)
     landmark = models.CharField(max_length=100)
     subscription_date = models.DateField()
@@ -45,6 +60,7 @@ class Customer(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
 
 
 @receiver(pre_save, sender=Customer)

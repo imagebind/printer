@@ -2,13 +2,28 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import pdfkit
 from django.http import HttpResponse
-from django.template.loader import render_to_string
+from django.template.loader import render_to_string, get_template
+from io import BytesIO
 import os
 from .models import Customer
 # Create your views here.
 from collections import defaultdict
 from django.views.decorators.clickjacking import xframe_options_sameorigin
+from django.db.models import Case, When, IntegerField, Value
+from django.utils import timezone
 
+from django.template.loader import render_to_string
+# from weasyprint import HTML
+from xhtml2pdf import pisa
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
 
 @xframe_options_sameorigin
 def home(request):
@@ -38,6 +53,7 @@ def render_pdf_view(request):
     # path_to_wkhtmltopdf = 'E:\Zzz\Zzzz\printer'
     # config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
     # print(config)
+
     # Convert HTML to PDF
     pdf = pdfkit.from_string(html, False) #, configuration=config)
 
@@ -61,13 +77,99 @@ def get_customer_data(request):
         'state',
         'pincode',
         'landmark',
+        'subscription_date',
+        'plan_expiration_date',
+        'is_expired',
     ]
-    print(request.GET)
+    # print(request.GET)
     state = request.GET.get('state')
     district = request.GET.get('district')
     substatus = request.GET.get('substatus')
+    export = request.GET.get('export')
     print(state, district, substatus)
-    cus_list = list(Customer.objects.filter(state=state, district=district).values(*required_cols))
-    print(cus_list)
-    return render(request, 'customerdata.html', {'data': cus_list})
+    if state and state != 'all' and district and district != 'all':
+        cus_list = list(Customer.objects.annotate(
+                is_expired=Case(
+                    When(plan_expiration_date__lt=timezone.now(), then=Value(1)),  # Expired
+                    default=Value(0),  # Active
+                    output_field=IntegerField()
+                )
+            ).filter(state=state, district=district).values(*required_cols))
+    elif state and state != 'all' and district and district == 'all':
+        cus_list = list(Customer.objects.annotate(
+                is_expired=Case(
+                    When(plan_expiration_date__lt=timezone.now(), then=Value(1)),  # Expired
+                    default=Value(0),  # Active
+                    output_field=IntegerField()
+                )
+            ).filter(state=state).values(*required_cols))
+    else:
+        cus_list = list(Customer.objects.annotate(
+                        is_expired=Case(
+                            When(plan_expiration_date__lt=timezone.now(), then=Value(1)),  # Expired
+                            default=Value(0),  # Active
+                            output_field=IntegerField()
+                        )
+                    ).all().values(*required_cols))
+
+    substatus_map = {
+        'LIVE': 0,
+        'EXPIRED': 1
+    }
+
+    if substatus and substatus != 'all':
+        cus_list = [customer for customer in cus_list if customer['is_expired']==substatus_map[substatus.upper()]]
+
+    cus_dict = {}
+    
+    for customer in cus_list:
+        if customer['district'] not in cus_dict.keys():
+            cus_dict[customer['district']] = []
+        cus_dict[customer['district']].append(customer)
+
+    
+    cus_dict = sorted(cus_dict.items())
+    print(len(cus_dict), cus_dict)
+
+    if export == 'true':
+        pdf = render_to_pdf( 'customerdata.html', {'data': cus_dict})
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = 'download.pdf'
+        content = "attachmet; filename=%s" %(filename)
+        response['Content-Disposition'] = content
+        return response
+
+        #############################
+        # html = render_to_string( 'customerdata.html', {'data': cus_list})
+        # options = {
+        #     'page-size': 'A4',
+        #     'disable-javascript': '',
+        #     'load-error-handling': 'ignore',
+        #     # 'load-timeout': '10.0',
+        #     'enable-local-file-access': ''
+        # }
+        # pdf = pdfkit.from_string(html, 'output.pdf', options=options)
+        # response = HttpResponse(pdf, content_type='application/pdf')
+        # response['Content-Disposition'] = 'attachment; filename="output.pdf"'
+        # return response
+        ####################################
+        # html_string = render_to_string( 'customerdata.html', {'data': cus_list})
+        # pdf = html(string=html_string).write_pdf()
+        # response = HttpResponse(pdf, content_type='application/pdf')
+        # response['Content-Disposition'] = 'inline; filename="report.pdf"'
+        # return response
+    return render(request, 'customerdata.html', {'data': cus_dict})
+
+from django.shortcuts import render, redirect
+from .forms import CustomerForm
+
+def create_customer(request):
+    if request.method == 'POST':
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('success')  # Redirect to a success page or customer list
+    else:
+        form = CustomerForm()
+    return render(request, 'customer_form.html', {'form': form})
 

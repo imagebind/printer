@@ -9,11 +9,6 @@
     <title>Customer Data</title>
 
     <style>
-        @media print {
-                .district-page {
-                page-break-after: always; /* Start new page after each district */
-            }
-        }
     /* .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
         --bs-gutter-x: 1.5rem;
         --bs-gutter-y: 0;
@@ -53,30 +48,26 @@
     </style>
 </head>
 <body>
-    {% for district, cusdata in data  %}
-    <div class="district-page">
-    <table width="100%" style="border-collapse: collapse;">
-        <tr>
-            {% for cus in cusdata %}
-            <td style="width: 33%; padding: 10px; vertical-align: top; border: 1px solid #ddd;">
-                <b>{{ cus.name }}</b><br>
-                {{ cus.flat_no }}, {{ cus.flat_name }}<br>
-                {{ cus.door_numbeer }}, {{ cus.street_name }}<br>
-                {{ cus.area }}<br>
-                {{ cus.taluk }}<br>
-                {{ cus.district }}<br>
-                {{ cus.state }}<br>
-                {{ cus.pincode }}<br>
-                {{ cus.landmark }}
-            </td>
-            {% if forloop.counter|divisibleby:3 and not forloop.last %}
-        </tr><tr>
-            <span></span>
-            {% endif %}
-            {% endfor %}
-        </tr>
-    </table>
+    <div class="container-fluid">
+        <div class="row">
+                {% for cus in data %}
+                <div class="col-3 mb-4">
+                    <!-- {{cus}} -->
+                    <b>{{cus.name}}</b><br>
+                    {{cus.flat_no}},{{cus.flat_name}}
+                    {{cus.door_numbeer}}, {{cus.street_name}}
+                    {{cus.area}}
+                    {{cus.taluk}}<br>
+                    {{cus.district}}<br>
+                    {{cus.state}}<br>
+                    {{cus.pincode}}<br>
+                    {{cus.landmark}}
+                    <!-- {% for k,v in cus.items %}
+                    <br/> {{v}} 
+                    {% endfor %} -->
+                </div>
+            {% endfor %}            
+        </div>
     </div>
-    {% endfor %}
 </body>
 </html>
