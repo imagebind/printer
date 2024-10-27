@@ -5,6 +5,6 @@ urlpatterns = [
     path('', home, name='home'),
     path('cusdata', get_customer_data, name='customerdata'),
     path('pdf/', render_pdf_view, name='render_pdf_view'),
-    path('create-customer/', create_customer, name='create_customer'),
+    path('customerform/', create_customer, name='customerform'),
 ]
 
