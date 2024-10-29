@@ -70,6 +70,7 @@ class Payment(models.Model):
     amount = models.CharField(max_length=100)
     payment_method = models.CharField(max_length=100)
     status = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.payment_id
