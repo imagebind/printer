@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <style>
+        /* Center the button on the page */
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+
+        /* Button styling */
+        #rzp-button1 {
+            background-color: #3399ff; /* Razorpay blue */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        /* Hover effect */
+        #rzp-button1:hover {
+            background-color: #0077cc;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Active (pressed) effect */
+        #rzp-button1:active {
+            background-color: #005fa3;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+    <button id="rzp-button1">Pay with Razorpay</button>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "{{data.key}}", 
+    "amount": Number("{{data.amount}}"), 
+    "currency": "INR",
+    "name": "{{data.company_name}}",
+    "description": "{{data.description}}",
+    "image": "https://example.com/your_logo",
+    "order_id": '{{data.order_id}}' ,
+    "handler": function (response){
+        console.log(response);
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature)
+        window.location.href = `/customerform/?payment_id=${response.razorpay_payment_id}&order_id=${response.razorpay_order_id}&signature=${response.razorpay_signature}`;
+    },
+    "prefill": {
+        "name": "{{data.customer_name}}",
+        "email": "{{data.customer_email}}",
+        "contact": "{{data.customer_contact}}"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+rzp1.on('payment.failed', function (response){
+        console.log('response', response);
+    
+        // alert(response.error.code);
+        // alert(response.error.description);
+        // alert(response.error.source);
+        // alert(response.error.step);
+        // alert(response.error.reason);
+        // alert(response.error.metadata.order_id);
+        // alert(response.error.metadata.payment_id);
+
+        console.log('error code', response.error.code);
+        console.log('description', response.error.description);
+        console.log('error source', response.error.source);
+        console.log('error step', response.error.step);
+        console.log('error reason', response.error.reason);
+        console.log('error orderid', response.error.metadata.order_id);
+        console.log('error', response.error.metadata.payment_id);
+
+});
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
+</body>
+</html>
+
+

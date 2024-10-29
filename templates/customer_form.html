@@ -91,14 +91,40 @@
     </style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
+    <script>
+        function showSuccessAlert() {
+            Swal.fire({
+                title: 'Payment Success!',
+                // text: 'You can add custom text here.',
+                icon: 'success',
+                confirmButtonText: 'Close'
+            });
+        }
+        function showFailureAlert() {
+            Swal.fire({
+                title: 'Payment Failed!',
+                // text: 'You can add custom text here.',
+                icon: 'error',
+                confirmButtonText: 'Close'
+            });
+        }
+        const executeFunction = '{{ data.payment_status|lower }}';
+        console.log(executeFunction)
+        if (executeFunction=='success') {
+            showSuccessAlert();  // Call this function if execute_function is True
+        } if(executeFunction=='failed') {
+            showFailureAlert();  // Call this function if execute_function is False
+        }
+    </script>
+
     <h1>Customer Form</h1>
     <div class="container">
         <form method="POST">
             {% csrf_token %}
-            {% for field in form %}
+            {% for field in data.form %}
                 <div class="form-group">
                     <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
                     {{ field }}

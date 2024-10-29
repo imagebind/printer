@@ -50,7 +50,7 @@ class Customer(models.Model):
     taluk = models.CharField(max_length=100)
     district =  models.ForeignKey(District, on_delete=models.CASCADE) 
     state = models.ForeignKey(State, on_delete=models.CASCADE) 
-    pincode = models.IntegerField(max_length=6)
+    pincode = models.IntegerField()
     landmark = models.CharField(max_length=100, null=True)
     subscription_date = models.DateField(null=True)
     plan = models.ForeignKey(Plan, on_delete=models.DO_NOTHING)
@@ -62,7 +62,18 @@ class Customer(models.Model):
         return self.name
 
 
+class Payment(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
+    payment_id = models.CharField(max_length=100, unique=True)
+    order_id = models.CharField(max_length=100)
+    signature = models.CharField(max_length=100)
+    amount = models.CharField(max_length=100)
+    payment_method = models.CharField(max_length=100)
+    status = models.CharField(max_length=100)
 
+    def __str__(self) -> str:
+        return self.payment_id
+    
 @receiver(pre_save, sender=Customer)
 def add_sku(sender, instance, **kwargs):
     instance.name = instance.name.upper()

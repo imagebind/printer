@@ -6,10 +6,9 @@
     <meta charset="UTF-8">
     <script src="{% static 'jquery.js' %}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dropdowns in Body</title>
+    <title>Printer</title>
 </head>
 <body>
-
 
     <nav class="navbar bg-primary" data-bs-theme="dark">
         <div class="container-fluid">
@@ -17,8 +16,6 @@
         </div>
       </nav>
     
- 
-
         <div class="row mt-3">
             <div class="col-2"></div>
             <div class="col-2">
@@ -55,10 +52,7 @@
         <iframe src="/cusdata" frameborder="10" style="width: 100%;height: 900px;" id="iframe"></iframe>
 
     <script>
-        // console.log('{{ data }}');
         data = JSON.parse('{{ data }}'.replaceAll('&#x27;', '"'))
-        // console.log(data)
-
         dist_sel = document.getElementById('districts')
         state_sel = document.getElementById('states')
 
@@ -71,7 +65,6 @@
         function update_district_selection(){
             removeAllChildNodes(dist_sel)
             selected_state = state_sel.value
-            // console.log(data['statedict'])
             state_dist = data['statedict'][selected_state] || ''
 
             var opt = document.createElement('option');
@@ -85,7 +78,6 @@
                     continue
                 }
                 l.push(state_dist[i])
-                // console.log(i, state_dist[i])
                 var opt = document.createElement('option');
                 opt.value = state_dist[i];
                 opt.innerHTML = state_dist[i];
@@ -94,20 +86,15 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            // console.log("DOM fully loaded and parsed!");
             update_district_selection()
         });
 
         state_sel.addEventListener('change', function(){
-            // console.log('state changed')
             update_district_selection()
         })
 
         function update_customer_data(update){
             sub_sel = document.getElementById('substatus')
-            console.log(state_sel.value)
-            console.log(dist_sel.value)
-            console.log(sub_sel.value)
             state_selected = state_sel.value
             district_selected = dist_sel.value
             subscription_selected = sub_sel.value
@@ -130,7 +117,6 @@
                 iframe.src = url;
             }
         }
-
     </script>
 
 </body>
