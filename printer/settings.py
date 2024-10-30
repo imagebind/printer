@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-s5^6a=yb(k*605ccgf$g3hv&bc8j-7k!4o92wd(d9k)@hph3ty
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['oreynadu.com']
 
 
 # Application definition
@@ -133,8 +133,3 @@ WKHTMLTOPDF_CMD_OPTIONS = {
 }
 
 
-
-if os.name != 'nt':
-    WKHTMLTOPDF_CMD = '/usr/local/bin/wkhtmltopdf'
-else:
-    WKHTMLTOPDF_DEBUG = True
