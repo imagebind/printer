@@ -81,6 +81,7 @@ def add_sku(sender, instance, **kwargs):
     instance.father_name = instance.father_name.upper()
     instance.email = instance.email.upper()
     instance.taluk = instance.taluk.upper()
-    # instance.plan_expiration_date = instance.subscription_date + timedelta(weeks=52*instance.plan.duration)
+    if instance.subscription_date:
+        instance.plan_expiration_date = instance.subscription_date + timedelta(weeks=52*instance.plan.duration)
 
 

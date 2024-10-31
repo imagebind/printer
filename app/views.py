@@ -17,6 +17,7 @@ from django.shortcuts import render, redirect
 from .forms import CustomerForm
 from .constants import RAZORPAY_API_ID, RAZORPAY_SECRET_KEY
 from django.contrib import messages
+from datetime import datetime
 
 
 def render_to_pdf(template_src, context_dict={}):
@@ -144,6 +145,8 @@ def create_customer(request):
             new_payment = Payment(customer=customer, payment_id=payment['id'], order_id=order_id, signature=signature, amount=payment['amount'], payment_method=payment['method'],status=payment['status'])
             new_payment.save()
             print("Payment successful")
+            customer.subscription_date = datetime.now()
+            customer.save()
             payment_status = 'success'
         else:
             customer = Customer.objects.get(email=payment['email'].upper())
@@ -183,7 +186,7 @@ def create_customer(request):
     return render(request, 'customer_form.html', {'data': data})
 
 def pay(request):
-    pay_data = request.session.pop('pay_data', None)
+    pay_data = request.session.get('pay_data', None)
     return render(request, 'pay.html', {'data': pay_data})
 
 from django.http import JsonResponse
