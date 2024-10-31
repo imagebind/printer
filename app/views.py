@@ -78,6 +78,7 @@ def get_customer_data(request):
     if state and state != 'all' and district and district != 'all':
         cus_list = list(Customer.objects.annotate(
                 is_expired=Case(
+                    When(plan_expiration_date=None, then=Value(-1)),
                     When(plan_expiration_date__lt=timezone.now(), then=Value(1)),  # Expired
                     default=Value(0),  # Active
                     output_field=IntegerField()
@@ -86,6 +87,7 @@ def get_customer_data(request):
     elif state and state != 'all' and district and district == 'all':
         cus_list = list(Customer.objects.annotate(
                 is_expired=Case(
+                    When(plan_expiration_date=None, then=Value(-1)),
                     When(plan_expiration_date__lt=timezone.now(), then=Value(1)),  # Expired
                     default=Value(0),  # Active
                     output_field=IntegerField()
@@ -94,13 +96,15 @@ def get_customer_data(request):
     else:
         cus_list = list(Customer.objects.annotate(
                         is_expired=Case(
-                            When(plan_expiration_date__lt=timezone.now(), then=Value(1)),  # Expired
+                            When(plan_expiration_date=None, then=Value(-1)),
+                            When(plan_expiration_date__lt=timezone.now(), then=Value(1)),  
                             default=Value(0),  # Active
                             output_field=IntegerField()
                         )
                     ).all().values(*required_cols))
 
     substatus_map = {
+        'INCOMPLETE': -1,
         'LIVE': 0,
         'EXPIRED': 1
     }
