@@ -5,7 +5,7 @@ urlpatterns = [
     path('', home, name='home'),
     path('cusdata', get_customer_data, name='customerdata'),
     path('pdf/', render_pdf_view, name='render_pdf_view'),
-    path('customerform/', create_customer, name='customerform'),
+    path('subscription-page/', create_customer, name='customerform'),
     path('get-districts/<int:state_id>/', get_districts, name='get_districts'),
     path('pay/', pay, name='pay'),
 ]

@@ -1,12 +1,7 @@
-<!-- myapp/templates/myapp/customer_form.html -->
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Customer</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    {% block title %}Orey Naadu ஒரேநாடு - Subscription Form{% endblock %}
+    {% block head %}
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -89,11 +84,9 @@
             }
         }
     </style>
+    {% endblock %}
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
-<body>
+{% block content %}
     <script>
         function showSuccessAlert() {
             Swal.fire({
@@ -120,7 +113,7 @@
         }
     </script>
 
-    <h1>Customer Form</h1>
+    <h1>Subscription Form</h1>
     <div class="container">
         <form method="POST">
             {% csrf_token %}
@@ -133,7 +126,7 @@
                     {% endif %}
                 </div>
             {% endfor %}
-            <button type="submit">Submit</button>
+            <button id="rzp-button1" type="submit">Submit</button>
         </form>
     </div>
 
@@ -162,6 +155,4 @@
             });
         });
     </script>
-
-</body>
-</html>
+{% endblock %}

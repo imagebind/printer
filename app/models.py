@@ -56,6 +56,8 @@ class Customer(models.Model):
     plan = models.ForeignKey(Plan, on_delete=models.DO_NOTHING)
     plan_expiration_date = models.DateField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    refer_by = models.CharField(max_length=100, null=True)
+    bjp_membership_number = models.CharField(max_length=100, null=True)
 
 
     def __str__(self) -> str:

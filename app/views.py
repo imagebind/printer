@@ -18,6 +18,7 @@ from .forms import CustomerForm
 from .constants import RAZORPAY_API_ID, RAZORPAY_SECRET_KEY
 from django.contrib import messages
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
 
 
 def render_to_pdf(template_src, context_dict={}):

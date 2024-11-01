@@ -1,19 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment</title>
+{% extends "base.html" %}
+
+    {% block title %} Payment {% endblock %}
+    {% block head %}
     <style>
         /* Center the button on the page */
-        body {
+        /* body {
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
             background-color: #f4f4f9;
-        }
+        } */
 
         /* Button styling */
         #rzp-button1 {
@@ -42,9 +40,13 @@
             transform: scale(0.98);
         }
     </style>
-</head>
-<body>
-    <button id="rzp-button1">Pay with Razorpay</button>
+    {% endblock %}
+
+    {% block content %}
+    <div class="container vh-100 d-flex justify-content-center align-items-center">
+        <button id="rzp-button1">Pay with Razorpay</button>
+    </div>
+
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
 var options = {
@@ -60,7 +62,7 @@ var options = {
         // alert(response.razorpay_payment_id);
         // alert(response.razorpay_order_id);
         // alert(response.razorpay_signature)
-        window.location.href = `/customerform/?payment_id=${response.razorpay_payment_id}&order_id=${response.razorpay_order_id}&signature=${response.razorpay_signature}`;
+        window.location.href = `/subscription-page/?payment_id=${response.razorpay_payment_id}&order_id=${response.razorpay_order_id}&signature=${response.razorpay_signature}`;
     },
     "prefill": {
         "name": "{{data.customer_name}}",
@@ -100,7 +102,5 @@ document.getElementById('rzp-button1').onclick = function(e){
     e.preventDefault();
 }
 </script>
-</body>
-</html>
-
+{% endblock %}
 
