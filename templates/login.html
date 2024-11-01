@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Admin Login</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-success " style="background-color: #D66A2B; border: #D66A2B;" type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

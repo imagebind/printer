@@ -133,3 +133,8 @@ WKHTMLTOPDF_CMD_OPTIONS = {
 }
 
 
+LOGIN_REDIRECT_URL = '/'  # Redirect after login
+LOGOUT_REDIRECT_URL = '/'  # Redirect after logout
+
+
+LOGIN_URL = '/login/'  # Use your custom login path

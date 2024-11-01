@@ -30,6 +30,7 @@ def render_to_pdf(template_src, context_dict={}):
         return HttpResponse(result.getvalue(), content_type='application/pdf')
     return None
 
+@login_required
 @xframe_options_sameorigin
 def home(request):
     data = {}
@@ -197,3 +198,10 @@ def get_districts(request, state_id):
     districts = District.objects.filter(state_id=state_id).values('id', 'name')
     return JsonResponse(list(districts), safe=False)
 
+
+from django.contrib.auth.views import LoginView
+from .forms import CustomLoginForm
+
+class CustomLoginView(LoginView):
+    template_name = 'login.html'  # specify your login template
+    authentication_form = CustomLoginForm
