@@ -182,6 +182,9 @@ def create_customer(request):
             }
             request.session['pay_data'] = pay_data
             return redirect('pay')
+        else:
+            data = {'form': form, 'payment_status': payment_status}
+
     else:
         form = CustomerForm()
         data = {'form': form, 'payment_status': payment_status}
