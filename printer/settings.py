@@ -75,10 +75,29 @@ WSGI_APPLICATION = 'printer.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'oreynadu',
+        'USER': 'dbmasteruser',
+        'PASSWORD': 'OY39m;>^o1:Q]aj#bGcA8{;,i6scQlbo',
+        'HOST': 'ls-1870c78c0f0f195e8ad6ff23c0a2e8cd5f4435cc.crc06uqcu4lu.ap-south-1.rds.amazonaws.com',  # Or an IP address if hosted elsewhere
+        'PORT': '3306',  # Default MySQL port
+        'OPTIONS': {
+            # 'ssl': {'verify_server_cert': False},
+            # 'ssl': {'ssl_mode': 'DISABLED'},
+            'ssl': {
+                'ca': 'certificate.pem',  # Path to the PEM file
+            }
+            # 'ssl_disabled': True,
+        },
     }
 }
 
