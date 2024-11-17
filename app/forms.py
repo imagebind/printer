@@ -10,12 +10,12 @@ class CustomerForm(forms.ModelForm):
             'name', 'father_name', 'cell_number', 'refer_by', 'bjp_membership_number', 'email', 
             'flat_no', 'flat_name', 'door_number', 
             'street_name', 'area', 'taluk', 
-            'district', 'state', 'pincode', 
+            'state', 'district',  'pincode', 
             'landmark', 'plan'
         ]
         labels = {
-                    'refer_by': 'Refer By(optional)', 
-                    'bjp_membership_number': 'BJP Membership Number(optional)', 
+                    'refer_by': 'Reference by (Name)', 
+                    'bjp_membership_number': 'Reference by (Cell Number)', 
                 }
 
 
