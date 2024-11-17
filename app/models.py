@@ -60,7 +60,10 @@ class Customer(models.Model):
     plan_expiration_date = models.DateField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     refer_by = models.CharField(max_length=100, null=True)
-    bjp_membership_number = models.CharField(max_length=100, null=True)
+    bjp_membership_number = models.CharField(
+        max_length=10, 
+        validators=[RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Enter a valid phone number.")]
+    )
 
 
     def __str__(self) -> str:
