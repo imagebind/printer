@@ -164,7 +164,7 @@ def create_customer(request):
             client = razorpay.Client(auth=(RAZORPAY_API_ID, RAZORPAY_SECRET_KEY))
 
             order_data = {
-                'amount':  new_customer.plan.amount, 
+                'amount':  new_customer.plan.amount*100, 
                 'currency': 'INR', 
                 'receipt': uuid4().hex
             }
@@ -172,7 +172,7 @@ def create_customer(request):
 
             pay_data  = {
                 'key': RAZORPAY_API_ID,
-                'amount': payment['amount'] * 100,
+                'amount': payment['amount'],
                 'company_name': 'Printer',
                 'description': 'Printer',
                 'order_id': payment['id'],
