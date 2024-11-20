@@ -64,10 +64,11 @@
                 {{ cus.door_number }}, {{ cus.street_name }}<br>
                 {{ cus.area }}<br>
                 {{ cus.taluk }}<br>
-                {{ cus.district }}<br>
-                {{ cus.state }}<br>
+                {{ cus.district__name }}<br>
+                {{ cus.state__name }}<br>
                 {{ cus.pincode }}<br>
-                {{ cus.landmark }}
+                Landmark: {{ cus.landmark }}<br>
+                [{{cus.plan_expiration_date}}]
             </td>
             {% if forloop.counter|divisibleby:3 and not forloop.last %}
         </tr><tr>

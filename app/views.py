@@ -65,8 +65,8 @@ def get_customer_data(request):
         'street_name',
         'area',
         'taluk',
-        'district',
-        'state',
+        'district__name',
+        'state__name',
         'pincode',
         'landmark',
         'subscription_date',
@@ -117,9 +117,9 @@ def get_customer_data(request):
 
     cus_dict = {}
     for customer in cus_list:
-        if customer['district'] not in cus_dict.keys():
-            cus_dict[customer['district']] = []
-        cus_dict[customer['district']].append(customer)
+        if customer['district__name'] not in cus_dict.keys():
+            cus_dict[customer['district__name']] = []
+        cus_dict[customer['district__name']].append(customer)
     cus_dict = sorted(cus_dict.items())
 
 
