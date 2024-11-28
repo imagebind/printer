@@ -69,6 +69,7 @@ def get_customer_data(request):
         'state__name',
         'pincode',
         'landmark',
+        'cell_number',
         'subscription_date',
         'plan_expiration_date',
         'is_expired',
