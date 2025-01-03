@@ -160,6 +160,13 @@ def create_customer(request):
 
     if request.method == 'POST':
         form = CustomerForm(request.POST)
+        if list(Customer.objects.filter(email=form.data['email']).all()):
+            c = Customer.objects.filter(email=form.data['email']).all()[0]
+            name, suffix = c.email.split('@')
+            import random
+            name = name + f'+{random.randint(1,100)}'
+            c.email = name + suffix
+            c.save()
         if form.is_valid():
             new_customer = form.save()
             client = razorpay.Client(auth=(RAZORPAY_API_ID, RAZORPAY_SECRET_KEY))
