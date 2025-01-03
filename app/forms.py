@@ -34,7 +34,7 @@ class CustomerForm(forms.ModelForm):
 
         plans_with_prices = {
             'Plan A': 'Rs.600/-  (One Year-52 issues)',
-            'Plan B': 'Rs.1500/- (Three Years-156 issues)',
+            'Plan B': 'Rs.1000/- (Three Years-156 issues)',
             'Plan C': 'Rs.10,000/- (Life Time)'
         }
         self.fields['plan'].choices = [(key, value) for key, value in plans_with_prices.items()]
