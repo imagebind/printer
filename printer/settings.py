@@ -31,6 +31,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://oreynadu.com",
+    "https://www.oreynadu.com",
+]
+
 
 # Application definition
 
