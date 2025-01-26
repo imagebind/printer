@@ -48,3 +48,29 @@ from django.contrib.auth.forms import AuthenticationForm
 class CustomLoginForm(AuthenticationForm):
     username = forms.CharField(label="Username")
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
+
+
+
+class VerifyCustomerForm(forms.Form):
+    email = forms.EmailField(label="Email", max_length=254, required=True)
+    cell_number = forms.CharField(
+        label="Mobile Number", 
+        max_length=10, 
+        required=True, 
+        validators=[Customer._meta.get_field('cell_number').validators[0]]  # Use the same validator as in the model
+    )
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get("email")
+        cell_number = cleaned_data.get("cell_number")
+
+        # Verify customer existence
+        try:
+            customer = Customer.objects.get(email=email, cell_number=cell_number)
+        except Customer.DoesNotExist:
+            raise forms.ValidationError("No customer found with the given email and mobile number.")
+        
+        cleaned_data["customer"] = customer  # Attach customer data for further use if needed
+        return cleaned_data
+

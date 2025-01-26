@@ -19,6 +19,7 @@ from .constants import RAZORPAY_API_ID, RAZORPAY_SECRET_KEY
 from django.contrib import messages
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
+from .forms import VerifyCustomerForm
 
 
 def render_to_pdf(template_src, context_dict={}):
@@ -216,3 +217,26 @@ from .forms import CustomLoginForm
 class CustomLoginView(LoginView):
     template_name = 'login.html'  # specify your login template
     authentication_form = CustomLoginForm
+
+
+def verify_customer(request):
+    result = None
+
+    if request.method == "POST":
+        form = VerifyCustomerForm(request.POST)
+        if form.is_valid():
+            customer = form.cleaned_data["customer"]
+            result = {
+                "name": customer.name,
+                "address": f"{customer.door_number}, {customer.street_name}, {customer.area}, {customer.district.name}, {customer.state.name}, {customer.pincode}",
+                "payment_status": "Active" if customer.plan_expiration_date and customer.plan_expiration_date > timezone.now().date() else "Expired",
+                "plan": customer.plan,
+                "subscription_date": "No Active Subscription" if not customer.subscription_date else customer.subscription_date,
+                "expiration_date": "No Active Subscription" if not customer.plan_expiration_date else customer.plan_expiration_date,
+                "todays_date": timezone.now().date(),
+                "days_to_expire": "No Active Subscription" if not customer.plan_expiration_date else str((customer.plan_expiration_date - customer.subscription_date).days)
+            }
+    else:
+        form = VerifyCustomerForm()
+
+    return render(request, "verify_customer.html", {"form": form, "result": result})

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Orey Naadu ஒரேநாடு - Verify Customer Details{% endblock %}
+{% block head %}
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        input {
+            padding: 5px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+        <!-- Page Header -->
+        <div class="text-center mb-4">
+            <h1 class="display-5">Verify Details</h1>
+            <p class="text-muted">Enter your email and mobile number to verify your details.</p>
+        </div>
+
+        <!-- Form Section -->
+        <div class="card shadow-sm p-4">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="email">Email:</label>
+                    {{ form.email }}
+                </div>
+                <div class="mb-3">
+                    <label for="cell_number">Mobile:</label>
+                    {{ form.cell_number }}
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary btn">Verify</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Result Section -->
+        {% if result %}
+        <div class="card shadow-sm mt-4 p-4">
+            <h2 class="h4 mb-3">Verification Success</h2>
+            <dl class="row">
+                <dt class="col-sm-4">Name</dt>
+                <dd class="col-sm-8">{{ result.name }}</dd>
+
+                <dt class="col-sm-4">Address</dt>
+                <dd class="col-sm-8">{{ result.address }}</dd>
+
+                <dt class="col-sm-4">Payment Status</dt>
+                <dd class="col-sm-8">
+                    <span class="">
+                        {{ result.payment_status }}
+                    </span>
+                </dd>
+
+                <dt class="col-sm-4">Plan</dt>
+                <dd class="col-sm-8">{{ result.plan }}</dd>
+
+                <dt class="col-sm-4">Subscription Date</dt>
+                <dd class="col-sm-8">{{ result.subscription_date }}</dd>
+
+                <dt class="col-sm-4">Expiration Date</dt>
+                <dd class="col-sm-8">{{ result.expiration_date }}</dd>
+
+                <dt class="col-sm-4">Today's Date</dt>
+                <dd class="col-sm-8">{{ result.todays_date }}</dd>
+
+                <dt class="col-sm-4">Days to Expire</dt>
+                <dd class="col-sm-8">{{ result.days_to_expire }}</dd>
+            </dl>
+        </div>
+        {% else %}
+        <div class="card shadow-sm mt-4 p-4">
+            <h2 class="h4 mb-3">Verification Failed</h2>
+        </div>
+
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    
+{% endblock %}
